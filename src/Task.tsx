@@ -5,9 +5,8 @@ import {Delete} from "@mui/icons-material";
 import {TaskType} from "./Todolist";
 
 type PropsType = {
-    key:string
+    // key:string
     id: string
-    title: string
     task: TaskType
     removeTask: (taskId: string, todolistId: string) => void
     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
