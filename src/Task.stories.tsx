@@ -3,6 +3,7 @@ import {ComponentMeta} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
 
 import {Task} from "./Task";
+import {TaskPriorities, TaskStatuses} from "./api/todolists-api";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,14 +22,26 @@ export const TaskBaseExample = () => {
     return <>
         <Task
             id={'todolist1'}
-            task={{id: '1', isDone: false, title: 'CSS'}}
+            task={{id: '1', status: TaskStatuses.New, title: 'CSS',todoListId: 'todolist1',
+                description: '',
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low}}
             removeTask={removeTaskCallback}
             changeTaskStatus={changeTaskStatusCallback}
             changeTaskTitle={changeTaskTitleCallback}
         />
         <Task
             id={'todolist2'}
-            task={{id: '2', isDone: true, title: 'Title'}}
+            task={{id: '2', status: TaskStatuses.Completed, title: 'Title',todoListId: 'todolist2',
+                description: '',
+                startDate: '',
+                deadline: '',
+                addedDate: '',
+                order: 0,
+                priority: TaskPriorities.Low}}
             removeTask={removeTaskCallback}
             changeTaskStatus={changeTaskStatusCallback}
             changeTaskTitle={changeTaskTitleCallback}

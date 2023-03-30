@@ -45,12 +45,31 @@ type ResponseType<TypeHere = {}> = {
     messages: string[],
     data: TypeHere
 }
-export type TaskType = {
 
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+// const a:TaskStatuses = TaskStatuses.New
+
+export enum TaskPriorities {
+    Low = 0,
+    Middle = 1,
+    Hi = 2,
+    Urgently = 3,
+    Later = 4
+}
+
+
+export type TaskType = {
     description: string
     title: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
     id: string
@@ -66,11 +85,11 @@ type GetTasksResponse = {
 }
 type UpdateTasksModelType = {
     title: string
-    description: string|null
+    description: string | null
     status: number
     priority: number
-    startDate: string|null
-    deadline: string|null
+    startDate: string | null
+    deadline: string | null
 }
 
 
@@ -97,15 +116,22 @@ export const todolistAPI = {
     },
 
     createTask(todolistId: string, title: string) {
-        return instance.post<ResponseType<{items: TaskType[]}>>(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<ResponseType<{ items: TaskType[] }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
 
     deleteTasks(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
 
-    updateTask(todolistId: string, taskId: string,  model: UpdateTasksModelType) {
-        return instance.put<UpdateTasksModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, {title: model.title, description: model.description, status: model.status, priority: model.priority, startDate: model.startDate, deadline: model.deadline})
+    updateTask(todolistId: string, taskId: string, model: UpdateTasksModelType) {
+        return instance.put<UpdateTasksModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, {
+            title: model.title,
+            description: model.description,
+            status: model.status,
+            priority: model.priority,
+            startDate: model.startDate,
+            deadline: model.deadline
+        })
     }
 
 }
