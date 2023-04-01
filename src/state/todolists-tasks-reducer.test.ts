@@ -1,6 +1,6 @@
 import {addTodolistAC, TodolistsDomainType, todolistsReducer} from './todolists-reducer';
 import {tasksReducer} from './tasks-reducer';
-import {TasksStateType} from "../AppWithReducers";
+import {TasksStateType} from "../AppWithRedux";
 
 test('ids should be equals', () => {
     const startTasksState: TasksStateType = {};
