@@ -11,10 +11,10 @@ import {
     removeTodolistAC,
     todolistsReducer
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
+import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from './state/tasks-reducer';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType, TodolistType} from "./api/todolists-api";
 
 // export type TodolistType = {
 //     id: string
@@ -83,17 +83,23 @@ function AppWithReducers() {
     }
 
     function addTask(title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
+        const action = addTaskAC({ id: "1", status: TaskStatuses.New, title,todoListId:todolistId,
+            description: '',
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TaskPriorities.Low });
         dispatchToTasks(action);
     }
 
     function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
-        const action = changeTaskStatusAC(id, status, todolistId);
+        const action = updateTaskAC(id, {status}, todolistId);
         dispatchToTasks(action);
     }
 
     function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
+        const action = updateTaskAC(id, {title:newTitle}, todolistId);
         dispatchToTasks(action);
     }
 
@@ -113,8 +119,8 @@ function AppWithReducers() {
         dispatchToTodolists(action);
     }
 
-    function addTodolist(title: string) {
-        const action = addTodolistAC(title);
+    function addTodolist(title:string) {
+        const action = addTodolistAC({id: todolistId1, title: 'title', addedDate: '', order: 0, });
         dispatchToTasks(action);
         dispatchToTodolists(action);
     }
