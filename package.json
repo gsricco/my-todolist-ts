@@ -81,6 +81,7 @@
     "prop-types": "^15.8.1",
     "puppeteer": "^19.8.0",
     "start-server-and-test": "^2.0.0",
+    "ts-jest": "^29.0.5",
     "webpack": "^5.76.3"
   }
 }
