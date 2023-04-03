@@ -1,6 +1,7 @@
 import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer';
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTasksModelType} from "../../api/todolists-api";
 import {AppRootStateType, AppThunkType} from "../../app/store";
+import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
 
 const initialState: TasksStateType = {}
 
@@ -56,9 +57,11 @@ export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) =>
 
 //Thunk
 export const fetchTasksTC = (todolistId: string): AppThunkType => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.getTasks(todolistId)
         .then((res) => {
             dispatch(setTasksAC(res.data.items, todolistId))
+            dispatch(setAppStatusAC('succeeded'))
         })
 }
 export const removeTasksTC = (taskId: string, todolistId: string): AppThunkType => (dispatch) => {
@@ -69,10 +72,21 @@ export const removeTasksTC = (taskId: string, todolistId: string): AppThunkType 
         })
 }
 export const addTasksTC = (title: string, todolistId: string): AppThunkType => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.createTask(todolistId, title)
         .then(res => {
-            const action = addTaskAC(res.data.data.item);
-            dispatch(action);
+            if(res.data.resultCode === 0) {
+                const action = addTaskAC(res.data.data.item);
+                dispatch(action);
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                if(res.data.messages.length!== 0) {
+                    dispatch(setAppErrorAC(res.data.messages[0]))
+                }  else {
+                    dispatch(setAppErrorAC('some error occurred'))
+                }
+                dispatch(setAppStatusAC('failed'))
+            }
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTasksModelType, todolistId: string): AppThunkType => (dispatch, getState: () => AppRootStateType) => {
