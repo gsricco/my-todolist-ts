@@ -2,6 +2,7 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType}
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTasksModelType} from "../../api/todolists-api";
 import {AppRootStateType, AppThunkType} from "../../app/store";
 import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
+import {handlerServerAppError, handlerServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TasksStateType = {}
 
@@ -63,12 +64,24 @@ export const fetchTasksTC = (todolistId: string): AppThunkType => (dispatch) => 
             dispatch(setTasksAC(res.data.items, todolistId))
             dispatch(setAppStatusAC('succeeded'))
         })
+        .catch((error)=>{
+            handlerServerNetworkError(error,dispatch)
+
+            // dispatch(setAppErrorAC(error.message))
+            // dispatch(setAppStatusAC('failed'))
+        })
 }
 export const removeTasksTC = (taskId: string, todolistId: string): AppThunkType => (dispatch) => {
     todolistAPI.deleteTasks(todolistId, taskId)
         .then(res => {
             const action = removeTaskAC(taskId, todolistId);
             dispatch(action);
+        })
+        .catch((error)=>{
+            handlerServerNetworkError(error,dispatch)
+
+            // dispatch(setAppErrorAC(error.message))
+            // dispatch(setAppStatusAC('failed'))
         })
 }
 export const addTasksTC = (title: string, todolistId: string): AppThunkType => (dispatch) => {
@@ -80,13 +93,20 @@ export const addTasksTC = (title: string, todolistId: string): AppThunkType => (
                 dispatch(action);
                 dispatch(setAppStatusAC('succeeded'))
             } else {
-                if(res.data.messages.length!== 0) {
-                    dispatch(setAppErrorAC(res.data.messages[0]))
-                }  else {
-                    dispatch(setAppErrorAC('some error occurred'))
-                }
-                dispatch(setAppStatusAC('failed'))
+                handlerServerAppError(res.data, dispatch)
+                // if(res.data.messages.length!== 0) {
+                //     dispatch(setAppErrorAC(res.data.messages[0]))
+                // }  else {
+                //     dispatch(setAppErrorAC('some error occurred'))
+                // }
+                // dispatch(setAppStatusAC('failed'))
             }
+        })
+        .catch((error)=>{
+            handlerServerNetworkError(error,dispatch)
+
+            // dispatch(setAppErrorAC(error.message))
+            // dispatch(setAppStatusAC('failed'))
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTasksModelType, todolistId: string): AppThunkType => (dispatch, getState: () => AppRootStateType) => {
@@ -108,7 +128,23 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTasksModel
     }
     todolistAPI.updateTask(todolistId, taskId, apiModel)
         .then(res => {
-            dispatch(updateTaskAC(taskId, domainModel, todolistId));
+            if(res.data.resultCode === 0) {
+                dispatch(updateTaskAC(taskId, domainModel, todolistId));
+            } else {
+                handlerServerAppError(res.data, dispatch)
+                    // if(res.data.messages.length) {
+                    //     dispatch(setAppErrorAC(res.data.messages[0]))
+                    // }  else {
+                    //     dispatch(setAppErrorAC('some error occurred'))
+                    // }
+                    // dispatch(setAppStatusAC('failed'))
+                }
+        })
+        .catch((error)=>{
+            handlerServerNetworkError(error,dispatch)
+
+            // dispatch(setAppErrorAC(error.message))
+            // dispatch(setAppStatusAC('failed'))
         })
 }
 
