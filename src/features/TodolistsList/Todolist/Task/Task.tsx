@@ -1,17 +1,8 @@
 import React, {ChangeEvent, useCallback} from 'react';
 import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-
-type PropsType = {
-    // key:string
-    id: string
-    task: TaskType
-    removeTask: (taskId: string, todolistId: string) => void
-    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
-}
+import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
 
 export const Task = React.memo((props: PropsType) => {
     const onClickHandler = () => props.removeTask(props.task.id, props.id)
@@ -30,7 +21,6 @@ export const Task = React.memo((props: PropsType) => {
             color="primary"
             onChange={onChangeHandler}
         />
-
         <EditableSpan value={props.task.title} onChange={onTitleChangeHandler} />
         <IconButton onClick={onClickHandler}>
             <Delete />
@@ -38,3 +28,11 @@ export const Task = React.memo((props: PropsType) => {
     </div>
 })
 
+// Types
+type PropsType = {
+    id: string
+    task: TaskType
+    removeTask: (taskId: string, todolistId: string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+}
