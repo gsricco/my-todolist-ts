@@ -12,12 +12,25 @@ const instance = axios.create({
 })
 
 // API
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<ResponseType<{ userId?: number }>>('auth/login', data)
+    },
+    logout(){
+        return instance.delete<ResponseType<{ userId?: number }>>('auth/login')
+
+    },
+    me(){
+        return instance.get<ResponseType<{ id: number, email:string, login:string }>>('auth/me')
+    },
+}
+
+
 export const todolistAPI = {
     getTodolists() {
         return instance.get<Array<TodolistType>>('todo-lists')
     },
     createTodolist(title: string) {
-
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title})
     },
     deleteTodolist(todolistId: string) {
@@ -59,12 +72,14 @@ export type ResponseType<TypeHere = {}> = {
     messages: string[],
     data: TypeHere
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -72,6 +87,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type TaskType = {
     description: string
     title: string
@@ -96,4 +112,10 @@ export type UpdateTasksModelType = {
     priority: TaskPriorities
     startDate: string | null
     deadline: string | null
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
 }
