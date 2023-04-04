@@ -2,6 +2,7 @@ import {AppThunkType} from "./store";
 import {authAPI} from "../api/todolists-api";
 import {handlerServerAppError, handlerServerNetworkError} from "../utils/error-utils";
 import {setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {Dispatch} from "redux";
 
 const initialState: InitialStateType = {
     status: 'idle',
@@ -29,10 +30,10 @@ export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-ST
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIZED', value}) as const
 
 // Thunk
-export const initializedAppTC = (): AppThunkType => (dispatch) => {
+export const initializedAppTC = () => (dispatch:Dispatch) => {
     authAPI.me().then(res=>{
         if(res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
+            dispatch(setIsLoggedInAC({value:true}))
         } else {
             handlerServerAppError(res.data, dispatch)
         }

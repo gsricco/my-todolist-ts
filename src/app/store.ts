@@ -3,7 +3,8 @@ import {TodolistsActionsType, todolistsReducer} from '../features/TodolistsList/
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux';
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {appReducer, AppReducerActionsType} from "./app-reducer";
-import {LoginActionsType, authReducer} from "../features/Login/auth-reducer";
+import {authReducer} from "../features/Login/auth-reducer";
+import {configureStore} from "@reduxjs/toolkit";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -14,7 +15,12 @@ const rootReducer = combineReducers({
     login: authReducer
 })
 // непосредственно создаём store
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+// export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().prepend(thunkMiddleware)
+})
 
 export type RootState = ReturnType<typeof store.getState>
 
@@ -26,7 +32,7 @@ export type AppActionsType =
     | TasksActionsType
     | TodolistsActionsType
     | AppReducerActionsType
-    | LoginActionsType
+    // | LoginActionsType
 
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AppActionsType>
 // export type AppDispatch = typeof store.dispatch
