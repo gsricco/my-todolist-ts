@@ -1,4 +1,3 @@
-import {AppThunkType} from "../../app/store";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {handlerServerAppError, handlerServerNetworkError} from "../../utils/error-utils";
 import {authAPI, LoginParamsType} from "../../api/todolists-api";
@@ -39,12 +38,12 @@ export const {setIsLoggedInAC} = slice.actions
 
 //Thunk
 export const loginTC = (data: LoginParamsType) => (dispatch:Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({status:'loading'}))
     authAPI.login(data)
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value:true}))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status:'succeeded'}))
             } else {
                 handlerServerAppError(res.data, dispatch)
             }
@@ -54,12 +53,12 @@ export const loginTC = (data: LoginParamsType) => (dispatch:Dispatch) => {
         })
 }
 export const logoutTC = () => (dispatch:Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({status:'loading'}))
     authAPI.logout()
         .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value:false}))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status:'succeeded'}))
             } else {
                 handlerServerAppError(res.data, dispatch)
             }

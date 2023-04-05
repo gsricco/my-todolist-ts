@@ -14,17 +14,16 @@ import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
 import {initializedAppTC, RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {useAppDispatch} from "../hooks/hooks";
-import {logoutTC, setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const status = useAppSelector(state => state.app.status)
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
     const dispatch = useAppDispatch()
 

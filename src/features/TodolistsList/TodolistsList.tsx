@@ -1,17 +1,14 @@
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleTC,
     fetchTodolistsTC,
     FilterValuesType,
-    removeTodolistTC,
-    TodolistsDomainType
+    removeTodolistTC
 } from "./todolists-reducer";
-import {useAppDispatch} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import React, {useCallback, useEffect} from "react";
-import {addTasksTC, removeTasksTC, TasksStateType, updateTaskTC} from "./tasks-reducer";
+import {addTasksTC, removeTasksTC, updateTaskTC} from "./tasks-reducer";
 import {TaskStatuses} from "../../api/todolists-api";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
@@ -19,9 +16,9 @@ import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 
 export const TodolistsList = ({demo = false}: PropsType) => {
-    const todolists = useSelector<AppRootStateType, Array<TodolistsDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector(state => state.tasks)
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
 
     const dispatch = useAppDispatch();
@@ -47,7 +44,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
         dispatch(updateTaskTC(id, {title: newTitle}, todolistId));
     }, [dispatch])
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        const action = changeTodolistFilterAC(todolistId, value);
+        const action = changeTodolistFilterAC({id:todolistId, filter:value});
         dispatch(action);
     }, [dispatch])
     const removeTodolist = useCallback((id: string) => {

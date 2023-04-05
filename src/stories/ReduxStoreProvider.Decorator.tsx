@@ -3,12 +3,12 @@ import {Provider} from 'react-redux'
 import {applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
 import {v1} from 'uuid'
 import {TaskPriorities, TaskStatuses} from '../api/todolists-api'
-import {AppRootStateType} from '../app/store'
 import {tasksReducer} from '../features/TodolistsList/tasks-reducer'
 import {todolistsReducer} from '../features/TodolistsList/todolists-reducer'
 import {appReducer} from "../app/app-reducer";
 import thunkMiddleware from "redux-thunk";
 import {authReducer} from "../features/Login/auth-reducer";
+import {RootState} from "../app/store";
 
 
 const rootReducer = combineReducers({
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
     login: authReducer
 })
 
-const initialGlobalState: AppRootStateType = {
+const initialGlobalState: RootState = {
     todolists: [
         {id: 'todolistId1', title: 'What to learn', addedDate: '', order: 0, filter: "all", entityStatus: 'idle'},
         {id: 'todolistId2', title: 'What to buy', addedDate: '', order: 0, filter: "all", entityStatus: 'loading'}
