@@ -5,6 +5,7 @@ import {handlerServerAppError, handlerServerNetworkError} from "../../utils/erro
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
 import {RootState} from "../../app/store";
+import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 
 const initialState: TasksStateType = {}
 
@@ -18,6 +19,22 @@ const slice = createSlice({
                 state[action.payload.todolistId].splice(index, 1)
             }
         },
+        /*removeTaskAC:{
+            reducer:(state, action: PayloadAction<{ taskId: string, todolistId: string }>)=> {
+            const index = state[action.payload.todolistId].findIndex(t => t.id === action.payload.taskId);
+            if (index > -1) {
+                state[action.payload.todolistId].splice(index, 1)
+            }
+        },
+            prepare:(taskId:string, todolistId:string)=>{
+                return {
+                    payload:{
+                        taskId,
+                        todolistId
+                    }
+                }
+            }
+        },*/
         addTaskAC(state, action: PayloadAction<{ task: TaskType }>) {
             state[action.payload.task.todoListId].unshift(action.payload.task)
         },
@@ -34,20 +51,24 @@ const slice = createSlice({
         setTasksAC(state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) {
             state[action.payload.todolistId] = action.payload.tasks
         },
+        // clearTasks: () => {return {}}
     },
-        extraReducers: (builder) => {
-            builder.addCase(addTodolistAC, (state, action) => {
-                state[action.payload.todolist.id] = []
-            });
-            builder.addCase(removeTodolistAC, (state, action) => {
-                delete state[action.payload.todolistId]
-            });
-            builder.addCase(setTodolistsAC, (state, action) => {
-                action.payload.todolists.forEach(tl => {
-                    state[tl.id] = []
-                })
-            });
-        },
+    extraReducers: (builder) => {
+        builder.addCase(addTodolistAC, (state, action) => {
+            state[action.payload.todolist.id] = []
+        });
+        builder.addCase(removeTodolistAC, (state, action) => {
+            delete state[action.payload.todolistId]
+        });
+        builder.addCase(setTodolistsAC, (state, action) => {
+            action.payload.todolists.forEach(tl => {
+                state[tl.id] = []
+            })
+        })
+        builder.addCase(clearTasksAndTodolists,(state,action)=>{
+            return action.payload.tasks
+        })
+    },
 
 })
 

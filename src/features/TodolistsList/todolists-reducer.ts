@@ -3,6 +3,7 @@ import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {handlerServerAppError, handlerServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dispatch} from "redux";
+import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 
 const initialState: Array<TodolistsDomainType> = []
 
@@ -40,7 +41,14 @@ const slice = createSlice({
         setTodolistsAC(state, action: PayloadAction<{ todolists: Array<TodolistType> }>) {
             return action.payload.todolists.map(t => ({...t, filter: "all", entityStatus: "idle"}))
         },
-    }
+        // clearTodolists: () => {return []}
+
+    },
+    extraReducers: (builder) => {
+        builder.addCase(clearTasksAndTodolists,(state,action)=>{
+            return action.payload.todolists
+        })
+    },
 })
 
 export const todolistsReducer = slice.reducer;
@@ -51,7 +59,7 @@ export const {
     changeTodolistTitleAC,
     changeTodolistFilterAC,
     changeTodolistEntityStatusAC,
-    setTodolistsAC
+    setTodolistsAC,
 } = slice.actions
 
 
