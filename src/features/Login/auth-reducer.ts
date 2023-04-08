@@ -21,19 +21,7 @@ const slice = createSlice({
 
 
 export const authReducer = slice.reducer;
-//     (state: InitialStateType = initialState, action: LoginActionsType): InitialStateType => {
-//     switch (action.type) {
-//         case 'login/SET-IS-LOGGED-IN':
-//         return {...state, isLoggedIn:action.value}
-//         default:
-//             return state;
-//     }
-// }
-// Action
-// export const setIsLoggedInAC = (value: boolean) =>
-//     ({type: 'login/SET-IS-LOGGED-IN', value}) as const
 
-// export const setIsLoggedInAC = slice.actions.setIsLoggedInAC
 export const {setIsLoggedInAC} = slice.actions
 
 
@@ -73,11 +61,5 @@ export const logoutTC = () => (dispatch:Dispatch) => {
 
 
 // Types
-// export type LoginActionsType =
-//     | ReturnType<typeof setIsLoggedInAC>
-//
-// type InitialStateType = {
-//     isLoggedIn: boolean
-// }
 
 

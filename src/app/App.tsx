@@ -28,7 +28,9 @@ function App({demo = false}: PropsType) {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(initializedAppTC())
+        if(!demo){
+            dispatch(initializedAppTC())
+        }
     }, [])
 
 
@@ -44,7 +46,6 @@ function App({demo = false}: PropsType) {
     }
 
     return (
-        <BrowserRouter>
             <div className="App">
                 <ErrorSnackbar/>
                 <AppBar position="static">
@@ -68,7 +69,6 @@ function App({demo = false}: PropsType) {
 
                 </Container>
             </div>
-        </BrowserRouter>
     );
 }
 
