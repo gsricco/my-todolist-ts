@@ -67,9 +67,11 @@ export type TodolistType = {
     addedDate: string
     order: number
 }
+export type FieldErrorType = {field:string, error:string}
 export type ResponseType<TypeHere = {}> = {
     resultCode: number
     messages: string[],
+    fieldsErrors?:Array<FieldErrorType>
     data: TypeHere
 }
 
