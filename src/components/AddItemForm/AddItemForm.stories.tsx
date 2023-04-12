@@ -10,13 +10,18 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 
-const callback = action('Button "+" added title new task')
+const asyncCallback = async (...params:any[])=>{
+    action('Button "+" added title new task')
+}
+
+
+// const callback = action('Button "+" added title new task')
 export const AddItemFormBaseExample = ()=>{
-    return <AddItemForm addItem={callback}/>
+    return <AddItemForm addItem={asyncCallback}/>
 }
 
 export const AddItemFormDisabledExample = (props:any)=>{
-    return <AddItemForm disabled={true} addItem={callback}/>
+    return <AddItemForm disabled={true} addItem={asyncCallback}/>
 }
 
 

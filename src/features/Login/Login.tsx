@@ -11,19 +11,12 @@ import {FormikHelpers, useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {Navigate} from 'react-router-dom'
 import {selectIsLoggedIn} from "./selectors";
-import {useActions} from "../../app/store";
 import {loginActionc} from "./index";
 
 export const Login = () => {
 
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    // const {
-    //     loginTC,
-    //     setIsLoggedInAC,
-    //     logoutTC
-    // }= useActions(loginActionc)
-
 
     const formik = useFormik({
         validate: (values) => {

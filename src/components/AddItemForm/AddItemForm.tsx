@@ -3,25 +3,34 @@ import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import {IconButton} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
 
-export const AddItemForm = React.memo(({addItem,disabled}: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({addItem, disabled}: AddItemFormPropsType) => {
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
 
-    const addItemHandler = () => {
+    const addItemHandler = async () => {
         if (title.trim() !== "") {
-            addItem(title);
-            setTitle("");
+            try {
+                await addItem(title);
+                setTitle("");
+            } catch (error) {
+                if (typeof error === "string") {
+                    setError(error);
+                } else {
+                    setError("An error occurred.");
+                }
+            }
         } else {
             setError("Title is required");
         }
-    }
+    };
+
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-       if(error!==null) {
+        if (error !== null) {
             setError(null);
         }
         if (e.charCode === 13) {
@@ -48,6 +57,6 @@ export const AddItemForm = React.memo(({addItem,disabled}: AddItemFormPropsType)
 
 // Types
 type AddItemFormPropsType = {
-    addItem: (title: string) => void
-    disabled?:boolean
+    addItem: (title: string) => Promise<any>
+    disabled?: boolean
 }

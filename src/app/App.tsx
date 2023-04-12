@@ -60,7 +60,7 @@ function App({demo = false}: PropsType) {
                     </Toolbar>
                     {status === 'loading' && <LinearProgress/>}
                 </AppBar>
-                <Container fixed>
+                <Container maxWidth={false} >
                     <Routes>
                         <Route path='/' element={<TodolistsList demo={demo}/>}/>
                         <Route path='/login' element={<Login/>}/>
