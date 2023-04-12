@@ -7,7 +7,7 @@ import {tasksReducer} from '../features/TodolistsList/tasks-reducer'
 import {todolistsReducer} from '../features/TodolistsList/todolists-reducer'
 import {appReducer} from "../app/app-reducer";
 import thunkMiddleware from "redux-thunk";
-import {authReducer} from "../features/Login/auth-reducer";
+import {loginReducer} from "../features/Login/login-reducer";
 import {RootReducerType, RootState} from "../app/store";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
@@ -17,7 +17,7 @@ const rootReducer: RootReducerType= combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
     app: appReducer,
-    login: authReducer
+    login: loginReducer
 })
 
 const initialGlobalState: RootState = {

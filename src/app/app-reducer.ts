@@ -1,6 +1,6 @@
 import {authAPI} from "../api/todolists-api";
 import {handlerServerAppError, handlerServerNetworkError} from "../utils/error-utils";
-import {setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {setIsLoggedInAC} from "../features/Login/login-reducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios/index";
 
@@ -11,7 +11,7 @@ const initialState: InitialStateType = {
 }
 
 // Thunk
-export const initializedAppTC = createAsyncThunk('app/initializedApp', async (param, {dispatch, rejectWithValue}) => {
+const initializedAppTC = createAsyncThunk('app/initializedApp', async (param, {dispatch, rejectWithValue}) => {
     try {
         const res = await authAPI.me()
         if (res.data.resultCode === 0) {
@@ -26,6 +26,10 @@ export const initializedAppTC = createAsyncThunk('app/initializedApp', async (pa
     }
 })
 
+export const asyncActions = {
+    initializedAppTC
+}
+
 const slice = createSlice({
     name: 'app',
     initialState: initialState,
@@ -36,9 +40,6 @@ const slice = createSlice({
         setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         },
-        // setAppInitializedAC(state, action: PayloadAction<{ value: boolean }>) {
-        //     state.isInitialized = action.payload.value
-        // },
     },
     extraReducers: builder => {
         builder.addCase(initializedAppTC.fulfilled, (state, action) => {
@@ -52,13 +53,11 @@ export const appReducer = slice.reducer;
 export const {
     setAppErrorAC,
     setAppStatusAC,
-    // setAppInitializedAC,
 } = slice.actions
 
 
 // Types
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 export type InitialStateType = {
     status: RequestStatusType
     error: string | null

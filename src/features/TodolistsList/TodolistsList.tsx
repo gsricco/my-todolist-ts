@@ -1,62 +1,61 @@
-import {
-    addTodolistTC,
-    changeTodolistFilterAC,
-    changeTodolistTitleTC,
-    fetchTodolistsTC,
-    FilterValuesType,
-    removeTodolistTC
-} from "./todolists-reducer";
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import React, {useCallback, useEffect} from "react";
-import {addTasksTC, removeTasksTC, updateTaskTC} from "./tasks-reducer";
-import {TaskStatuses} from "../../api/todolists-api";
+import {useAppSelector} from "../../hooks/hooks";
+import React, {useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
+import {selectIsLoggedIn} from "../Login/selectors";
+import {useActions} from "../../app/store";
+import {tasksActions, todolistsActions} from "./index";
 
 export const TodolistsList = ({demo = false}: PropsType) => {
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
-    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    const {removeTasks,
+        updateTask,
+        // addTasks,
+        } = useActions(tasksActions);
+    const {addTodolistTC,
+        // removeTodolistTC,
+        // changeTodolistTitleTC,
+        fetchTodolistsTC,
+    } = useActions(todolistsActions);
 
-
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (demo|| !isLoggedIn) {
             return;
         }
-        dispatch(fetchTodolistsTC())
+        fetchTodolistsTC()
     }, [])
 
 
-    const removeTask = useCallback((taskId: string, todolistId: string) => {
-        dispatch(removeTasksTC({taskId, todolistId}))
-    }, [dispatch])
-    const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(addTasksTC({title, todolistId}));
-    }, [dispatch])
-    const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTaskTC({taskId:id, domainModel:{status}, todolistId}));
-    }, [dispatch])
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(updateTaskTC({taskId:id, domainModel:{title: newTitle}, todolistId}));
-    }, [dispatch])
-    const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
-        const action = changeTodolistFilterAC({id:todolistId, filter:value});
-        dispatch(action);
-    }, [dispatch])
-    const removeTodolist = useCallback((id: string) => {
-        dispatch(removeTodolistTC(id));
-    }, [dispatch])
-    const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(changeTodolistTitleTC({todolistId:id, title}));
-    }, [dispatch])
-    const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistTC(title));
-    }, [dispatch])
-
+    // const removeTask = useCallback((taskId: string, todolistId: string) => {
+    //     removeTasks({taskId, todolistId})
+    // }, [])
+    // const addTask = useCallback((title: string, todolistId: string) => {
+    //    addTasks({title, todolistId});
+    // }, [])
+    // const changeStatus = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
+    //     updateTask({taskId:id, domainModel:{status}, todolistId});
+    // }, [])
+    // const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
+    //     updateTask({taskId:id, domainModel:{title: newTitle}, todolistId});
+    // }, [])
+    // const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {
+    //    changeTodolistFilter({id:todolistId, filter:value});
+    // }, [])
+    // const removeTodolist = useCallback((id: string) => {
+    //     removeTodolistTC(id);
+    // }, [])
+    // const changeTodolistTitle = useCallback((id: string, title: string) => {
+    //     changeTodolistTitleTC({todolistId:id, title});
+    // }, [])
+    // const addTodolist = useCallback((title: string) => {
+    //     addTodolistTC(title);
+    // }, [])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -64,7 +63,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
 
     return <>
         <Grid container style={{padding: "20px"}}>
-            <AddItemForm addItem={addTodolist}/>
+            <AddItemForm addItem={addTodolistTC}/>
         </Grid>
         <Grid container spacing={3}>
             {
@@ -79,14 +78,13 @@ export const TodolistsList = ({demo = false}: PropsType) => {
                                 // id={tl.id}
                                 // title={tl.title}
                                 tasks={tasksForTodolist}
-                                removeTask={removeTask}
-                                changeFilter={changeFilter}
-                                addTask={addTask}
-                                changeTaskStatus={changeStatus}
+                                // removeTask={removeTasks}
+                                // addTask={addTask}
+                                // changeTaskStatus={changeStatus}
                                 // filter={tl.filter}
-                                removeTodolist={removeTodolist}
-                                changeTaskTitle={changeTaskTitle}
-                                changeTodolistTitle={changeTodolistTitle}
+                                // removeTodolist={removeTodolist}
+                                // changeTaskTitle={changeTaskTitle}
+                                // changeTodolistTitle={changeTodolistTitle}
                                 demo={demo}
                             />
                         </Paper>

@@ -9,15 +9,20 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import {loginTC} from "./auth-reducer";
-import {useSelector} from "react-redux";
 import {Navigate} from 'react-router-dom'
-import {string} from "prop-types";
+import {selectIsLoggedIn} from "./selectors";
+import {useActions} from "../../app/store";
+import {loginActionc} from "./index";
 
 export const Login = () => {
 
     const dispatch = useAppDispatch()
-    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector(selectIsLoggedIn)
+    // const {
+    //     loginTC,
+    //     setIsLoggedInAC,
+    //     logoutTC
+    // }= useActions(loginActionc)
 
 
     const formik = useFormik({
@@ -37,8 +42,8 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
-            const action = await dispatch(loginTC(values))
-            if (loginTC.rejected.match(action)) {
+            const action = await dispatch(loginActionc.loginTC(values))
+            if (loginActionc.loginTC.rejected.match(action)) {
                 if (action.payload?.fieldsErrors?.length) {
                     const error = action.payload?.fieldsErrors[0];
                     formikHelpers.setFieldError(error.field, error.error)

@@ -11,32 +11,32 @@ import {
     Typography
 } from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TodolistsList} from "../features/TodolistsList/TodolistsList";
-import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useSelector} from "react-redux";
-import {initializedAppTC, RequestStatusType} from "./app-reducer";
-import {Login} from "../features/Login/Login";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {TodolistsList} from "../features/TodolistsList";
+import {ErrorSnackbar} from "../components/ErrorSnackbar";
+import {asyncActions} from "./app-reducer";
+import {Login} from "../features/Login";
+import {Route, Routes} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {logoutTC} from "../features/Login/auth-reducer";
+import {loginActionc} from "../features/Login";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import {loginSelectors} from "../features/Login";
 
 function App({demo = false}: PropsType) {
-    const status = useAppSelector(state => state.app.status)
-    const isInitialized = useAppSelector(state => state.app.isInitialized)
-    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+    const status = useAppSelector(selectStatus)
+    const isInitialized = useAppSelector(selectIsInitialized)
+    const isLoggedIn = useAppSelector(loginSelectors.selectIsLoggedIn)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         if(!demo){
-            dispatch(initializedAppTC())
+            dispatch(asyncActions.initializedAppTC())
         }
     }, [])
 
 
-
     const LogoutHandler = useCallback(()=>{
-        dispatch(logoutTC())
+        dispatch(loginActionc.logoutTC())
     },[])
 
     if (!isInitialized) {

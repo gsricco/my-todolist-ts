@@ -4,12 +4,13 @@ import {action} from '@storybook/addon-actions';
 
 import {Task} from "./Task";
 import {TaskPriorities, TaskStatuses} from "../../../../api/todolists-api";
+import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "../../../../stories/ReduxStoreProvider.Decorator";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'Task component',
     component: Task,
-    // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+    decorators:[ReduxStoreProviderDecorator]
 
 } as ComponentMeta<typeof Task>;
 
@@ -29,9 +30,9 @@ export const TaskBaseExample = () => {
                 addedDate: '',
                 order: 0,
                 priority: TaskPriorities.Low}}
-            removeTask={removeTaskCallback}
-            changeTaskStatus={changeTaskStatusCallback}
-            changeTaskTitle={changeTaskTitleCallback}
+            // removeTask={removeTaskCallback}
+            // changeTaskStatus={changeTaskStatusCallback}
+            // changeTaskTitle={changeTaskTitleCallback}
         />
         <Task
             id={'todolist2'}
@@ -42,9 +43,9 @@ export const TaskBaseExample = () => {
                 addedDate: '',
                 order: 0,
                 priority: TaskPriorities.Low}}
-            removeTask={removeTaskCallback}
-            changeTaskStatus={changeTaskStatusCallback}
-            changeTaskTitle={changeTaskTitleCallback}
+            // removeTask={removeTaskCallback}
+            // changeTaskStatus={changeTaskStatusCallback}
+            // changeTaskTitle={changeTaskTitleCallback}
         />
     </>
 }
