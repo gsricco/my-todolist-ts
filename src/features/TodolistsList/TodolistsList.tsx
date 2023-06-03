@@ -1,7 +1,7 @@
-import {useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import React, {useCallback, useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "../Login/selectors";
@@ -12,11 +12,23 @@ export const TodolistsList = ({demo = false}: PropsType) => {
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    const {removeTasks} = useActions(tasksActions);
+    // const {removeTasks} = useActions(tasksActions);
     const {addTodolistTC, fetchTodolistsTC} = useActions(todolistsActions);
+    const dispatch = useAppDispatch()
 
     const addTodolistCallback = useCallback(async (title: string) => {
-        addTodolistTC(title);
+        let thunk = todolistsActions.addTodolistTC(title)
+        const resultAction = await dispatch(thunk);
+        if (todolistsActions.addTodolistTC.rejected.match(resultAction)){
+            if (resultAction.payload?.fieldsErrors?.length){
+                const errorMessage = resultAction.payload?.fieldsErrors[0]
+                throw new Error(errorMessage?.error)
+            } else {
+                throw new Error('Some error')
+            }
+        }
+
+
     }, [])
 
     useEffect(() => {
@@ -34,7 +46,7 @@ export const TodolistsList = ({demo = false}: PropsType) => {
         <Grid container style={{padding: "20px"}}>
             <AddItemForm addItem={addTodolistCallback}/>
         </Grid>
-        <Grid container spacing={3} style={{flexWrap:'nowrap', overflowX:'scroll'}}>
+        <Grid container spacing={3} style={{flexWrap:'nowrap', overflowX:'scroll', paddingBottom:'40px'}}>
             {
                 todolists.map(tl => {
                     let allTodolistTasks = tasks[tl.id];

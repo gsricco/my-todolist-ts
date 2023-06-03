@@ -10,7 +10,6 @@ import {useActions} from "../../../app/store";
 import {tasksActions, todolistsActions} from "../index";
 import {OverridableStringUnion} from "@mui/types";
 import {ButtonPropsColorOverrides} from "@mui/material/Button/Button";
-import {useDispatch} from "react-redux";
 import {useAppDispatch} from "../../../hooks/hooks";
 
 export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {

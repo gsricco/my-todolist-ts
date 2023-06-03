@@ -17,7 +17,7 @@ import {asyncActions} from "./app-reducer";
 import {Login} from "../features/Login";
 import {Route, Routes} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../hooks/hooks";
-import {loginActionc} from "../features/Login";
+import {loginAction} from "../features/Login";
 import {selectIsInitialized, selectStatus} from "./selectors";
 import {loginSelectors} from "../features/Login";
 
@@ -36,7 +36,7 @@ function App({demo = false}: PropsType) {
 
 
     const LogoutHandler = useCallback(()=>{
-        dispatch(loginActionc.logoutTC())
+        dispatch(loginAction.logoutTC())
     },[])
 
     if (!isInitialized) {

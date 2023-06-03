@@ -11,7 +11,8 @@ import {FormikHelpers, useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import {Navigate} from 'react-router-dom'
 import {selectIsLoggedIn} from "./selectors";
-import {loginActionc} from "./index";
+import {loginAction} from "./index";
+import {useActions} from "../../app/store";
 
 export const Login = () => {
 
@@ -35,8 +36,8 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
-            const action = await dispatch(loginActionc.loginTC(values))
-            if (loginActionc.loginTC.rejected.match(action)) {
+            const action = await dispatch(loginAction.loginTC(values))
+            if (loginAction.loginTC.rejected.match(action)) {
                 if (action.payload?.fieldsErrors?.length) {
                     const error = action.payload?.fieldsErrors[0];
                     formikHelpers.setFieldError(error.field, error.error)

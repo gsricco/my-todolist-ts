@@ -2,7 +2,7 @@ import * as loginSelectors from './selectors'
 import {Login} from './Login'
 import {asyncAction, slice} from './login-reducer'
 
-const loginActionc = {
+const loginAction = {
     ... asyncAction,
     ...slice.actions
 }
@@ -11,5 +11,5 @@ const loginActionc = {
 export {
     loginSelectors,
     Login,
-    loginActionc
+    loginAction
 }

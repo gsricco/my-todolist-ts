@@ -7,6 +7,7 @@ import {loginReducer} from "../features/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {useMemo} from "react";
 import {useAppDispatch} from "../hooks/hooks";
+import {FieldErrorType} from "../api/todolists-api";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -38,6 +39,10 @@ export function useActions<Her extends ActionCreatorsMapObject<any>>(actions:Her
     return boundActions
 }
 
+export type ThunkError = {rejectValue: { errors: Array<string>, fieldsErrors?: Array<FieldErrorType> }}
+
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;
+
+
