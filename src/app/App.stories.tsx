@@ -4,7 +4,7 @@ import App from "./App";
 import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "../stories/ReduxStoreProvider.Decorator";
 
 export default {
-    title: 'App stories',
+    title: 'Application stories',
     component: App,
     decorators:[ReduxStoreProviderDecorator,BrowserRouterDecorator]
 

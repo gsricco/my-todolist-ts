@@ -3,7 +3,7 @@ import {ComponentMeta} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
 
 import {Task} from "./Task";
-import {TaskPriorities, TaskStatuses} from "../../../../api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "../../../../api/types";
 import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "../../../../stories/ReduxStoreProvider.Decorator";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

@@ -3,11 +3,11 @@ import {
     changeTodolistFilter,
     FilterValuesType,
     TodolistsDomainType,
-    todolistsReducer
 } from './todolists-reducer';
+
 import {v1} from 'uuid';
-import {RequestStatusType} from "../../app/app-reducer";
-import {todolistsActions} from "./index";
+import {RequestStatusType} from "../Application/application-reducer";
+import {todolistsActions,todolistsReducer} from "./index";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -58,7 +58,7 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[1].filter).toBe(newFilter);
 });
 test('todolist should be set to the state', () => {
-    const action = todolistsActions.fetchTodolistsTC.fulfilled({todolists: startState}, 'requestId');
+    const action = todolistsActions.fetchTodolistsTC.fulfilled({todolists: startState}, 'requestId', undefined);
     const endState = todolistsReducer([], action);
 
     expect(endState.length).toBe(2);

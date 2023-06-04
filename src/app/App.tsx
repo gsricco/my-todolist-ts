@@ -13,10 +13,10 @@ import {
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "../features/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
-import {asyncActions} from "./app-reducer";
+import {appActions} from "../features/Application";
 import {Login} from "../features/Login";
 import {Route, Routes} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../hooks/hooks";
+import {useActions, useAppDispatch, useAppSelector} from "../utils/redux-utils";
 import {loginAction} from "../features/Login";
 import {selectIsInitialized, selectStatus} from "./selectors";
 import {loginSelectors} from "../features/Login";
@@ -26,17 +26,19 @@ function App({demo = false}: PropsType) {
     const isInitialized = useAppSelector(selectIsInitialized)
     const isLoggedIn = useAppSelector(loginSelectors.selectIsLoggedIn)
 
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
+    const {logout}=useActions(loginAction)
+    const {initializedApp}=useActions(appActions)
 
     useEffect(() => {
         if(!demo){
-            dispatch(asyncActions.initializedAppTC())
+           initializedApp()
         }
     }, [])
 
 
     const LogoutHandler = useCallback(()=>{
-        dispatch(loginAction.logoutTC())
+       logout()
     },[])
 
     if (!isInitialized) {

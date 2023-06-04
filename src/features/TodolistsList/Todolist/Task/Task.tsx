@@ -2,8 +2,8 @@ import React, {ChangeEvent, useCallback} from 'react';
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskStatuses, TaskType} from "../../../../api/todolists-api";
-import {useActions} from "../../../../app/store";
+import {TaskStatuses, TaskType} from "../../../../api/types";
+import {useActions} from "../../../../utils/redux-utils";
 import {tasksActions, todolistsActions} from "../../index";
 
 export const Task = React.memo((props: PropsType) => {

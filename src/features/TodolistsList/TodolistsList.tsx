@@ -1,11 +1,10 @@
-import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
+import {useAppDispatch, useAppSelector,useActions} from "../../utils/redux-utils";
 import React, {useCallback, useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "../Login/selectors";
-import {useActions} from "../../app/store";
 import {tasksActions, todolistsActions} from "./index";
 
 export const TodolistsList = ({demo = false}: PropsType) => {

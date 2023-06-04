@@ -1,16 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from '../../../components/AddItemForm/AddItemForm';
+import {AddItemForm} from '../../../components/AddItemForm';
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task/Task";
-import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {TaskStatuses, TaskType} from "../../../api/types";
 import {FilterValuesType, TodolistsDomainType} from "../todolists-reducer";
-import {useActions} from "../../../app/store";
 import {tasksActions, todolistsActions} from "../index";
 import {OverridableStringUnion} from "@mui/types";
 import {ButtonPropsColorOverrides} from "@mui/material/Button/Button";
-import {useAppDispatch} from "../../../hooks/hooks";
+import {useAppDispatch,useActions} from "../../../utils/redux-utils";
 
 export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
 
