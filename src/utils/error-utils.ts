@@ -1,20 +1,6 @@
-import {appActions} from "../features/CommonActions/AplicationCommonActions";
+import {appActions} from "../features/CommonActions";
 import {ResponseType} from "../api/types";
 import {AxiosError} from "axios";
-
-// export const handlerServerAppError = <Here>(data: ResponseType<Here>, dispatch: Dispatch, showError = true) => {
-//     if (showError) {
-//         dispatch(setAppErrorAC({error:data.messages.length? data.messages[0]: 'some error occurred'}))
-//     }
-//     dispatch(setAppStatusAC({status: 'failed'}))
-// }
-//
-// export const handlerServerNetworkError = (error: { message: string }, dispatch: Dispatch, showError = true) => {
-//     if(showError){
-//         dispatch(setAppErrorAC({error: error.message ? error.message : 'Some error occurred'}))
-//     }
-//     dispatch(setAppStatusAC({status: 'failed'}))
-// }
 
 export const handlerAsyncServerAppError = <Here>(data: ResponseType<Here>, thunkAPI:ThunkAPIType,  showError = true) => {
     if (showError) {

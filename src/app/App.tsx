@@ -14,12 +14,10 @@ import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "../features/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
 import {appActions} from "../features/Application";
-import {Login} from "../features/Login";
+import {Login, loginAction, loginSelectors} from "../features/Login";
 import {Route, Routes} from "react-router-dom";
-import {useActions, useAppDispatch, useAppSelector} from "../utils/redux-utils";
-import {loginAction} from "../features/Login";
+import {useActions, useAppSelector} from "../utils/redux-utils";
 import {selectIsInitialized, selectStatus} from "./selectors";
-import {loginSelectors} from "../features/Login";
 
 function App({demo = false}: PropsType) {
     const status = useAppSelector(selectStatus)

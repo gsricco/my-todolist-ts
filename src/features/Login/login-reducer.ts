@@ -4,7 +4,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 import {AxiosError} from "axios";
 import {FieldErrorType, LoginParamsType} from "../../api/types";
-import {appActions} from "../CommonActions/AplicationCommonActions";
+import {appActions} from "../CommonActions";
 
 const {setAppStatus} = appActions
 
@@ -20,14 +20,9 @@ const login = createAsyncThunk<undefined, LoginParamsType, {
             return;
         } else {
             return handlerAsyncServerAppError(res.data, thunkAPI)
-
         }
     } catch (e) {
-        // const error: AxiosError = err as AxiosError;
-        // handlerServerNetworkError(error, thunkAPI.dispatch)
-        // return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
         return handlerAsyncServerNetworkError(e as AxiosError, thunkAPI)
-
     }
 })
 const logout = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
@@ -42,11 +37,7 @@ const logout = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
             return handlerAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (e) {
-        // const error: AxiosError = e as AxiosError;
-        // handlerServerNetworkError(error, thunkAPI.dispatch)
-        // return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
         return handlerAsyncServerNetworkError(e as AxiosError, thunkAPI)
-
     }
 })
 
@@ -67,12 +58,13 @@ export const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.isLoggedIn = true
-        });
-        builder.addCase(logout.fulfilled, (state, action) => {
-            state.isLoggedIn = false
-        });
+        builder
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoggedIn = true
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.isLoggedIn = false
+            });
     }
 })
 

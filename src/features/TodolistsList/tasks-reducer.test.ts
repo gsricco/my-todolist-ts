@@ -1,8 +1,10 @@
-import {TasksStateType} from './tasks-reducer';
-import {tasksReducer} from './index';
+import {slice,TasksStateType} from './tasks-reducer';
 import {TaskPriorities, TaskStatuses} from "../../api/types";
 import {todolistsActions} from "./index";
 import {tasksActions} from "./index";
+
+const {reducer:tasksReducer}=slice
+
 
 let startState: TasksStateType = {};
 beforeEach(() => {

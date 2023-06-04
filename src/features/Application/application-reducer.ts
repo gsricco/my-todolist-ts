@@ -1,7 +1,7 @@
 import {authAPI} from "../../api/todolists-api";
 import {handlerAsyncServerAppError, handlerAsyncServerNetworkError} from "../../utils/error-utils";
 import {setIsLoggedIn} from "../Login/login-reducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
 import {appActions} from "../CommonActions/AplicationCommonActions";
 
@@ -36,14 +36,7 @@ export const asyncActions = {
 export const slice = createSlice({
     name: 'app',
     initialState: initialState,
-    reducers: {
-        // setAppError(state, action: PayloadAction<{ error: string | null }>) {
-        //     state.error = action.payload.error
-        // },
-        // setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
-        //     state.status = action.payload.status
-        // },
-    },
+    reducers: {},
     extraReducers: builder => {
         builder.addCase(initializedApp.fulfilled, (state, action) => {
             state.isInitialized = true;
@@ -56,13 +49,6 @@ export const slice = createSlice({
         })
     }
 })
-
-// export const appReducer = slice.reducer;
-
-// export const {
-//     setAppError,
-//     setAppStatus,
-// } = slice.actions
 
 
 // Types

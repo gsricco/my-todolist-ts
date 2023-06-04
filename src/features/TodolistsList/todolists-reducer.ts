@@ -1,6 +1,6 @@
 import {TodolistType} from "../../api/types";
 import {RequestStatusType} from "../Application";
-import {appActions} from "../CommonActions/AplicationCommonActions";
+import {appActions} from "../CommonActions";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {clearTasksAndTodolists} from "../../common/actions/common.actions";
 import {AxiosError} from "axios";
@@ -96,26 +96,24 @@ export const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(clearTasksAndTodolists, (state, action) => {
+        builder
+            .addCase(clearTasksAndTodolists, (state, action) => {
             return action.payload.todolists
-        });
-        builder.addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+        })
+            .addCase(fetchTodolistsTC.fulfilled, (state, action) => {
             return action.payload.todolists.map(t => ({...t, filter: "all", entityStatus: "idle"}))
-        });
-        builder.addCase(removeTodolistTC.fulfilled, (state, action) => {
-            // @ts-ignore
+        })
+            .addCase(removeTodolistTC.fulfilled, (state, action) => {
             const index = state.findIndex(tl => tl.id === action.payload.todolistId);
             if (index > -1) {
                 state.splice(index, 1);
             }
-        });
-        builder.addCase(addTodolistTC.fulfilled, (state, action) => {
-            // @ts-ignore
+        })
+            .addCase(addTodolistTC.fulfilled, (state, action) => {
             state.unshift({...action.payload.todolist, filter: 'all', entityStatus: 'idle'})
-        });
-        builder.addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
+        })
+            .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
             if (action.payload) {
-                // @ts-ignore
                 const index = state.findIndex(tl => tl.id === action.payload.id);
                 if (index > -1) {
                     state[index].title = action.payload.title;
@@ -124,8 +122,6 @@ export const slice = createSlice({
         });
     },
 })
-
-// export const todolistsReducer = slice.reducer;
 
 export const {
     changeTodolistFilter,
