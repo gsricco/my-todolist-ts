@@ -19,17 +19,15 @@ import {Route, Routes} from "react-router-dom";
 import {useActions, useAppSelector} from "../utils/redux-utils";
 import {selectIsInitialized, selectStatus} from "./selectors";
 
-function App({demo = false}: PropsType) {
+function App(props: PropsType) {
     const status = useAppSelector(selectStatus)
     const isInitialized = useAppSelector(selectIsInitialized)
     const isLoggedIn = useAppSelector(loginSelectors.selectIsLoggedIn)
-
-    // const dispatch = useAppDispatch()
     const {logout}=useActions(loginAction)
     const {initializedApp}=useActions(appActions)
 
     useEffect(() => {
-        if(!demo){
+        if(!isInitialized){
            initializedApp()
         }
     }, [])
@@ -62,7 +60,7 @@ function App({demo = false}: PropsType) {
                 </AppBar>
                 <Container maxWidth={false} >
                     <Routes>
-                        <Route path='/' element={<TodolistsList demo={demo}/>}/>
+                        <Route path='/' element={<TodolistsList demo={false}/>}/>
                         <Route path='/login' element={<Login/>}/>
                         <Route path='*' element={<h1>404: PAGE NOT FOUND</h1>}/>
                     </Routes>
@@ -75,6 +73,4 @@ function App({demo = false}: PropsType) {
 export default App;
 
 // Types
-type PropsType = {
-    demo?: boolean
-}
+type PropsType = {}

@@ -1,18 +1,6 @@
-import {tasksReducer, todolistsReducer} from '../features/TodolistsList';
-import {combineReducers} from 'redux';
 import thunkMiddleware from "redux-thunk";
-import {appReducer} from "../features/Application";
-import {loginReducer} from "../features/Login";
 import {configureStore} from "@reduxjs/toolkit";
-
-// объединяя reducer-ы с помощью combineReducers,
-// мы задаём структуру нашего единственного объекта-состояния
-export const rootReducer = combineReducers({
-    app: appReducer,
-    login: loginReducer,
-    tasks: tasksReducer,
-    todolists: todolistsReducer,
-})
+import {rootReducer} from "./reducers";
 
 // непосредственно создаём store
 export const store = configureStore({
@@ -26,4 +14,8 @@ export const store = configureStore({
 // @ts-ignore
 window.store = store;
 
-
+if (process.env.NODE_ENV === 'development' && module.hot) {
+    module.hot.accept('./reducers', () => {
+        store.replaceReducer(rootReducer)
+    })
+}

@@ -1,17 +1,16 @@
-import {useAppDispatch, useAppSelector,useActions} from "../../utils/redux-utils";
+import {useActions, useAppDispatch, useAppSelector} from "../../utils/redux-utils";
 import React, {useCallback, useEffect} from "react";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Navigate} from "react-router-dom";
 import {selectIsLoggedIn} from "../Login/selectors";
-import {tasksActions, todolistsActions} from "./index";
+import {todolistsActions} from "./index";
 
 export const TodolistsList = ({demo = false}: PropsType) => {
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
     const isLoggedIn = useAppSelector(selectIsLoggedIn)
-    // const {removeTasks} = useActions(tasksActions);
     const {addTodolistTC, fetchTodolistsTC} = useActions(todolistsActions);
     const dispatch = useAppDispatch()
 
@@ -34,7 +33,9 @@ export const TodolistsList = ({demo = false}: PropsType) => {
         if (demo|| !isLoggedIn) {
             return;
         }
-        fetchTodolistsTC()
+        if(!todolists.length){
+            fetchTodolistsTC()
+        }
     }, [])
 
     if (!isLoggedIn) {
