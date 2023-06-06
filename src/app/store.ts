@@ -60,8 +60,8 @@ function* rootWatcher(){
     // yield takeEvery('TODOLISTS/CHANGE-TITLE-TODOLISTS', changeTodolistTitleWorkerSaga)
 
 
-    // yield appWatcherSaga()
-    // yield tasksWatcherSaga()
+    // yield* appWatcherSaga()
+    // yield* tasksWatcherSaga()
 
     yield all([appWatcherSaga(),tasksWatcherSaga(), todolistsWatcherSaga()])
 
