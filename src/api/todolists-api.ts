@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 const setting = {
     withCredentials: true,
@@ -39,10 +39,10 @@ export const todolistAPI = {
     updateTodolistTitle(todolistId: string, title: string) {
         return instance.put<ResponseType>(`todo-lists/${todolistId}`, {title: title})
     },
-    getTasks(todolistId: string) {
+    getTasks(todolistId: string){
         return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
     },
-    createTask(todolistId: string, title: string) {
+    createTask(todolistId: string, title: string):Promise<AxiosResponse<ResponseType<{ item: TaskType }>>> {
         return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     deleteTasks(todolistId: string, taskId: string) {
@@ -100,7 +100,7 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-type GetTasksResponse = {
+export type GetTasksResponse = {
     error: string | null
     totalCount: number
     items: TaskType[]

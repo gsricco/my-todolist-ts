@@ -1,8 +1,3 @@
-import {AppThunkType} from "./store";
-import {authAPI} from "../api/todolists-api";
-import {handlerServerAppError, handlerServerNetworkError} from "../utils/error-utils";
-import {setIsLoggedInAC} from "../features/Login/auth-reducer";
-
 const initialState: InitialStateType = {
     status: 'idle',
     error: null,
@@ -28,20 +23,17 @@ export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', 
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status}) as const
 export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIZED', value}) as const
 
+
+
 // Thunk
-export const initializedAppTC = (): AppThunkType => (dispatch) => {
-    authAPI.me().then(res=>{
-        if(res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
-        } else {
-            handlerServerAppError(res.data, dispatch)
-        }
-        dispatch(setAppInitializedAC(true))
-    })
-        .catch((error)=>{
-            handlerServerNetworkError(error,dispatch)
-        })
-}
+// export const initializedAppTC = (): AppThunkType => async (dispatch) => {
+//    const res = await authAPI.me()
+//        if(res.data.resultCode === 0) {
+//             dispatch(setIsLoggedInAC(true))
+//         } else {
+//         }
+//         dispatch(setAppInitializedAC(true))
+// }
 
 // Types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

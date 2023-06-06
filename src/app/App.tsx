@@ -13,13 +13,14 @@ import {
 import {Menu} from "@mui/icons-material";
 import {TodolistsList} from "../features/TodolistsList/TodolistsList";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializedAppTC, RequestStatusType} from "./app-reducer";
+import {RequestStatusType} from "./app-reducer";
 import {Login} from "../features/Login/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {useAppDispatch} from "../hooks/hooks";
-import {logoutTC, setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {logoutTC} from "../features/Login/auth-reducer";
+import {initializeApp} from "./app-saga";
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
@@ -27,9 +28,10 @@ function App({demo = false}: PropsType) {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
     const dispatch = useAppDispatch()
+    const dispatchSaga = useDispatch()
 
     useEffect(() => {
-        dispatch(initializedAppTC())
+        dispatchSaga(initializeApp())
     }, [])
 
 

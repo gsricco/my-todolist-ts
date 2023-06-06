@@ -7,17 +7,19 @@ import {Task} from "./Task/Task";
 import {TaskStatuses, TaskType} from "../../../api/todolists-api";
 import {FilterValuesType, TodolistsDomainType} from "../todolists-reducer";
 import {useAppDispatch} from "../../../hooks/hooks";
-import {fetchTasksTC} from "../tasks-reducer";
+import {useDispatch} from "react-redux";
+import {fetchTasks} from "../tasks-sagas";
 
 export const Todolist = React.memo(({demo=false,...props}: PropsType) => {
 
     const dispatch = useAppDispatch()
+    const dispatchSaga = useDispatch()
 
     useEffect(()=>{
         if (demo) {
             return;
         }
-        dispatch(fetchTasksTC(props.todolist.id))
+        dispatchSaga(fetchTasks(props.todolist.id))
     },[])
 
 
