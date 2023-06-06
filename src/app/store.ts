@@ -5,18 +5,10 @@ import thunkMiddleware, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {appReducer, AppReducerActionsType} from "./app-reducer";
 import {authReducer, LoginActionsType} from "../features/Login/auth-reducer";
 import createSagaMiddleware from 'redux-saga'
-import {
-    addTasksWorkerSaga,
-    fetchTasksWorkerSaga,
-    removeTasksWorkerSaga, updateTaskWorkerSaga,
-} from "../features/TodolistsList/tasks-sagas";
-import {appSaga} from "./app-saga";
-import {takeEvery} from "redux-saga/effects";
-import {
-    addTodolistWorkerSaga, changeTodolistTitleWorkerSaga,
-    fetchTodolistsWorkerSaga,
-    removeTodolistWorkerSaga
-} from "../features/TodolistsList/todolists-sagas";
+import {tasksWatcherSaga,} from "../features/TodolistsList/tasks-sagas";
+import {appWatcherSaga} from "./app-saga";
+import {all} from "redux-saga/effects";
+import {todolistsWatcherSaga} from "../features/TodolistsList/todolists-sagas";
 
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -55,22 +47,23 @@ sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher(){
     // alert('SAGA-rootWatcher')
-    yield takeEvery('APP/INITIALIZE-APP', appSaga)
-
-    yield takeEvery('TASKS/FETCH-TASKS', fetchTasksWorkerSaga)
-    yield takeEvery('TASKS/REMOVE-TASKS', removeTasksWorkerSaga)
-    yield takeEvery('TASKS/ADD-TASKS', addTasksWorkerSaga)
-    yield takeEvery('TASKS/UPDATE-TASKS', updateTaskWorkerSaga)
-
-    yield takeEvery('TODOLISTS/FETCH-TODOLISTS', fetchTodolistsWorkerSaga)
-    yield takeEvery('TODOLISTS/REMOVE-TODOLISTS', removeTodolistWorkerSaga)
-    yield takeEvery('TODOLISTS/ADD-TODOLISTS', addTodolistWorkerSaga)
-    yield takeEvery('TODOLISTS/CHANGE-TITLE-TODOLISTS', changeTodolistTitleWorkerSaga)
+    // yield takeEvery('APP/INITIALIZE-APP', appSaga)
+    //
+    // yield takeEvery('TASKS/FETCH-TASKS', fetchTasksWorkerSaga)
+    // yield takeEvery('TASKS/REMOVE-TASKS', removeTasksWorkerSaga)
+    // yield takeEvery('TASKS/ADD-TASKS', addTasksWorkerSaga)
+    // yield takeEvery('TASKS/UPDATE-TASKS', updateTaskWorkerSaga)
+    //
+    // yield takeEvery('TODOLISTS/FETCH-TODOLISTS', fetchTodolistsWorkerSaga)
+    // yield takeEvery('TODOLISTS/REMOVE-TODOLISTS', removeTodolistWorkerSaga)
+    // yield takeEvery('TODOLISTS/ADD-TODOLISTS', addTodolistWorkerSaga)
+    // yield takeEvery('TODOLISTS/CHANGE-TITLE-TODOLISTS', changeTodolistTitleWorkerSaga)
 
 
     // yield appWatcherSaga()
     // yield tasksWatcherSaga()
 
+    yield all([appWatcherSaga(),tasksWatcherSaga(), todolistsWatcherSaga()])
 
 
 

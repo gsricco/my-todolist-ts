@@ -55,7 +55,7 @@ export const addTodolistSaga = (title: string) => ({type: 'TODOLISTS/ADD-TODOLIS
 export const changeTodolistTitleSaga = (todolistId: string, title: string) => ({type: 'TODOLISTS/CHANGE-TITLE-TODOLISTS',todolistId,title})
 
 
-export function* tasksWatcherSaga() {
+export function* todolistsWatcherSaga() {
     yield takeEvery('TODOLISTS/FETCH-TODOLISTS', fetchTodolistsWorkerSaga)
     yield takeEvery('TODOLISTS/REMOVE-TODOLISTS', removeTodolistWorkerSaga)
     yield takeEvery('TODOLISTS/ADD-TODOLISTS', addTodolistWorkerSaga)
